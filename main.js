@@ -42,6 +42,5 @@ pm2.connect(function() {
         winston.error('[App:%s][Err] %s', packet.process.name, packet.data);
       });
     });
-    process.exit(0);
   });
 });
