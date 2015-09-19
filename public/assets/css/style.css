@@ -1,0 +1,12 @@
+.col-centered {
+  float: none;
+  margin: 0 auto;
+}
+.vspacer40 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.vspacer20 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

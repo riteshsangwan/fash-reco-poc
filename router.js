@@ -13,6 +13,7 @@ var userController = require('./controllers/UserController');
 var countryController = require('./controllers/CountryController');
 var config = require('config');
 var auth = require('./middlewares/Auth');
+var middleware = auth(config.JWT_SECRET);
 
 module.exports = function() {
   var options = {
@@ -26,9 +27,9 @@ module.exports = function() {
   router.post('/users/login', userController.login);
   router.post('/users/forgotPassword', userController.forgotPassword);
 
-  router.post('/users/updatePassword', auth(), userController.updatePassword);
-  router.post('/users/updateProfile', auth(), userController.updateProfile);
-  router.get('/me', auth(), userController.me);
+  router.post('/users/updatePassword', middleware, userController.updatePassword);
+  router.post('/users/updateProfile', middleware, userController.updateProfile);
+  router.get('/me', middleware, userController.me);
   router.get('/countries', countryController.getAll);
   router.post('/resetForgottonPassword', userController.resetForgottonPassword);
   router.get('/verifyAccount', userController.verifyAccount);

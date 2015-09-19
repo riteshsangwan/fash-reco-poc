@@ -1,5 +1,5 @@
 'use strict';
-
+/* jshint camelcase: false */
 /**
  * Start the pm2 cluster using the pm2 api
  *
@@ -10,7 +10,7 @@
 var pm2 = require('pm2');
 var winston = require('winston');
 
-var instances = process.env.WEB_CONCURRENCY || -1;
+var instances = require('os').cpus().length;
 var maxMemory = process.env.WEB_MEMORY || 512;
 
 pm2.connect(function() {
@@ -18,10 +18,11 @@ pm2.connect(function() {
     script    : 'server.js',
     name      : 'fashreco-poc',
     exec_mode : 'cluster',
+    merge_logs: true,
     instances : instances,
     max_memory_restart : maxMemory + 'M',
     env: {
-      "NODE_ENV": "production"
+      'NODE_ENV': 'production'
     },
   }, function(err) {
     if(err) {
@@ -41,5 +42,6 @@ pm2.connect(function() {
         winston.error('[App:%s][Err] %s', packet.process.name, packet.data);
       });
     });
+    process.exit(0);
   });
 });

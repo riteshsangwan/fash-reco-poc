@@ -14,32 +14,30 @@ var errors = require('common-errors');
 
 var jwt = require('jwt-simple'),
   moment = require('moment'),
-  jwt = require('jwt-simple'),
-  config = require('config');
+  jwt = require('jwt-simple');
 
 var authorizationTypes = {
   bearer: 'Bearer'
 };
 
-var middleware = function(req, res, next) {
-  var authorizationHeader = req.get('Authorization');
-  // authenticaiton logic
-  if(authorizationHeader) {
-    var splitted = authorizationHeader.split(' ');
-    if(splitted.length !== 2 || splitted[0] !== authorizationTypes.bearer) {
-      return next(new errors.AuthenticationRequiredError('Invalid authorization header'));
-    }
-    var token = splitted[1];
-    req.auth = jwt.decode(token, config.JWT_SECRET);
-    if(req.auth.expiration > moment().valueOf()) {
-      return next();
-    }
-    next(new errors.AuthenticationRequiredError('Authorization token is expired'));
-  } else {
-    next(new errors.AuthenticationRequiredError('Missing authorization header'));
-  }
-};
 
-module.exports = function() {
-  return middleware;
+module.exports = function(jwtSecret) {
+  return function(req, res, next) {
+    var authorizationHeader = req.get('Authorization');
+    // authenticaiton logic
+    if(authorizationHeader) {
+      var splitted = authorizationHeader.split(' ');
+      if(splitted.length !== 2 || splitted[0] !== authorizationTypes.bearer) {
+        return next(new errors.AuthenticationRequiredError('Invalid authorization header'));
+      }
+      var token = splitted[1];
+      req.auth = jwt.decode(token, jwtSecret);
+      if(req.auth.expiration > moment().valueOf()) {
+        return next();
+      }
+      next(new errors.AuthenticationRequiredError('Authorization token is expired'));
+    } else {
+      next(new errors.AuthenticationRequiredError('Missing authorization header'));
+    }
+  };
 };

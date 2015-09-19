@@ -15,6 +15,9 @@ var express = require('express'),
   logger = require('winston'),
   responseTransformer = require('./middlewares/ResponseTransformer'),
   errorHandler = require('./middlewares/ErrorHandler'),
+  path = require('path'),
+  subscribers = require('./subscribers'),
+  queues = require('./queues'),
   responser = require('./middlewares/Responser'),
   config = require('config');
 
@@ -26,6 +29,7 @@ app.set('view engine', 'jade');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(router());
 app.use(responseTransformer());
 app.use(responser());

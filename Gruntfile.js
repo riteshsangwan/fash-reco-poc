@@ -9,7 +9,7 @@
  */
 
 var paths = {
-  js: ['*.js', 'test/**/*.js','**/*.js', '!node_modules/**']
+  js: ['*.js', 'test/**/*.js','**/*.js', '!node_modules/**', '!public/bower_components/**']
 };
 
 module.exports = function(grunt) {

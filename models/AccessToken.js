@@ -9,14 +9,14 @@
 
 var mongoose = require('../datasource').getMongoose(),
   timestamps = require('mongoose-timestamp'),
+  constants = require('../constants'),
+  _ = require('lodash'),
   Schema = mongoose.Schema;
 
 var AccessTokenSchema = new Schema({
   accessToken: {type: String, required: true},
   refreshToken: {type: String, required: false},
-  constants = require('../constants'),
-  _ = require('lodash'),
-  socialNetwork: {type: String, required: true, enum: _.values(constants.socialNetworks}
+  socialNetwork: {type: String, required: true, enum: _.values(constants.socialNetworks)}
 });
 // use timestamp plugins
 AccessTokenSchema.plugin(timestamps);

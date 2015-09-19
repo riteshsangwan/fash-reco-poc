@@ -41,7 +41,7 @@ appControllers.controller('LoginController', ['$scope', '$state', 'SecurityServi
 }]);
 
 // register controller
-appControllers.controller('RegisterController', ['$scope', 'UserService', 'config', function ($scope, UserService, managers, config) {
+appControllers.controller('RegisterController', ['$scope', 'UserService', 'config', function ($scope, UserService, config) {
 
   $scope.register = function(registration) {
     UserService.register(registration).then(function() {
